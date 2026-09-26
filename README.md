@@ -1,8 +1,7 @@
 # iso-bundler
 
 A small drag-and-drop app that bundles files/folders into a CD-ROM `.iso`
-image, for loading into the Windows 98 VM (QEMU/UTM) used for the Janome
-Customizer 2000 in this restoration project. Attaching a `.iso` as a virtual
+image, for loading into the Windows 98 VM (QEMU/UTM). Attaching a `.iso` as a virtual
 CD-ROM is a simple, reliable way to get files into an old VM that doesn't
 have easy shared-folder support.
 
