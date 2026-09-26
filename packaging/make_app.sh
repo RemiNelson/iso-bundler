@@ -21,6 +21,12 @@ fi
 mkdir -p "$INSTALL_DIR"
 rm -rf "$APP_PATH"
 mkdir -p "$APP_PATH/Contents/MacOS"
+mkdir -p "$APP_PATH/Contents/Resources"
+
+ICON_SRC="$REPO_DIR/packaging/icon.icns"
+if [ -f "$ICON_SRC" ]; then
+    cp "$ICON_SRC" "$APP_PATH/Contents/Resources/icon.icns"
+fi
 
 cat > "$APP_PATH/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -31,6 +37,8 @@ cat > "$APP_PATH/Contents/Info.plist" <<PLIST
     <string>$APP_NAME</string>
     <key>CFBundleExecutable</key>
     <string>launch</string>
+    <key>CFBundleIconFile</key>
+    <string>icon</string>
     <key>CFBundleIdentifier</key>
     <string>com.reminelson.isobundler</string>
     <key>CFBundleVersion</key>

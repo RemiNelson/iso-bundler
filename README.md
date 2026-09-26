@@ -36,6 +36,22 @@ fails to open, check `~/Library/Logs/isobundler.log`. Re-run the script any
 time after updating dependencies or moving the project folder, since the
 wrapper hardcodes an absolute path to this repo's venv.
 
+The app icon (`packaging/icon.icns`) is pre-generated and committed, so you
+don't need anything extra to build the app. To regenerate it (e.g. after
+tweaking `packaging/make_icon.py`), install Pillow and re-run it, then
+rebuild the app:
+
+```sh
+.venv/bin/pip install pillow
+.venv/bin/python packaging/make_icon.py
+packaging/make_app.sh
+```
+
+Pillow is only needed for that regeneration step, so it's deliberately left
+out of `requirements.txt`. If macOS keeps showing the old icon after
+rebuilding, it's an icon-cache issue, not a build issue -- `killall Finder`
+usually clears it.
+
 Alternatively, run it directly from a terminal:
 
 ```sh
