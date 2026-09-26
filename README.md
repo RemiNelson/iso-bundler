@@ -1,0 +1,70 @@
+# iso-bundler
+
+A small drag-and-drop app that bundles files/folders into a CD-ROM `.iso`
+image, for loading into the Windows 98 VM (QEMU/UTM) used for the Janome
+Customizer 2000 in this restoration project. Attaching a `.iso` as a virtual
+CD-ROM is a simple, reliable way to get files into an old VM that doesn't
+have easy shared-folder support.
+
+## Requirements
+
+- **macOS only.** It shells out to `hdiutil`, the disk-image tool built into
+  macOS — there's no Windows/Linux equivalent bundled here.
+- Python 3.9+
+
+## Installation
+
+```sh
+git clone https://github.com/RemiNelson/iso-bundler.git
+cd iso-bundler
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+
+```sh
+python -m isobundler
+```
+
+A window opens with a drop zone. Either:
+
+- **Drag and drop** files and/or a folder onto it, or
+- **Click it** to open a file picker.
+
+You'll then be asked where to save the `.iso`. A few notes on what gets
+bundled:
+
+- Drop a **single folder** and its *contents* become the root of the ISO
+  (not the folder itself wrapping them).
+- Drop **loose files** (or multiple items) and they're placed directly at
+  the root of the ISO.
+
+The resulting image is a hybrid ISO9660 + Joliet disc, so long filenames
+survive — plain ISO9660 alone is limited to 8.3 filenames, which Joliet
+(supported since Windows 95) fixes.
+
+## Loading it into the VM
+
+In UTM (or QEMU directly), attach the `.iso` as a CD-ROM drive to the
+Windows 98 VM, boot/reboot it, and it'll show up as a CD in "My Computer" —
+same as any other CD-ROM.
+
+## Running the tests
+
+```sh
+python -m unittest discover -s tests -v
+```
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0**,
+with the **Commons Clause** added on top:
+
+- Free to use, modify, and share, including for personal/hobbyist use.
+- **Not** licensed for commercial use (selling, paid hosting, bundling
+  into a paid product) without a separate commercial license from the
+  copyright holder.
+
+See the [LICENSE](LICENSE) file for the full text.
