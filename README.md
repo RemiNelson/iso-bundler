@@ -47,8 +47,12 @@ Either way, a window opens with a drop zone. Either:
 - **Drag and drop** files and/or a folder onto it, or
 - **Click it** to open a file picker.
 
-You'll then be asked where to save the `.iso`. A few notes on what gets
-bundled:
+Do this as many times as you like — each pass adds to a queue shown in the
+list below the drop zone (duplicates are skipped). When you're done, click
+**Build ISO...** to choose where to save the `.iso` and bundle everything
+queued up. **Clear** empties the queue without building anything.
+
+A few notes on what gets bundled:
 
 - Drop a **single folder** and its *contents* become the root of the ISO
   (not the folder itself wrapping them).
