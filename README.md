@@ -24,11 +24,25 @@ pip install -r requirements.txt
 
 ## Usage
 
+Build a double-clickable app (once, after installation above):
+
+```sh
+packaging/make_app.sh
+```
+
+This creates `~/Applications/ISO Bundler.app`, a thin wrapper around this
+project's venv — launch it from Finder or Spotlight like any other app. If it
+fails to open, check `~/Library/Logs/isobundler.log`. Re-run the script any
+time after updating dependencies or moving the project folder, since the
+wrapper hardcodes an absolute path to this repo's venv.
+
+Alternatively, run it directly from a terminal:
+
 ```sh
 python -m isobundler
 ```
 
-A window opens with a drop zone. Either:
+Either way, a window opens with a drop zone. Either:
 
 - **Drag and drop** files and/or a folder onto it, or
 - **Click it** to open a file picker.
