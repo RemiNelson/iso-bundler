@@ -43,6 +43,28 @@ class BuildIsoTest(unittest.TestCase):
 
             self._assert_iso_contains(output_path, ["a.txt", "b.txt"])
 
+    def test_rebuild_at_same_path_preserves_inode(self):
+        # If the output path is a live CD-ROM mount in a VM (UTM/QEMU),
+        # replacing the file (new inode) rather than overwriting it in place
+        # breaks the VM host's sandboxed file-access bookmark on next boot.
+        # See PROJECT_LOG.md, "VM hang, likely caused by live ISO swapping".
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            source_dir = tmp / "files"
+            source_dir.mkdir()
+            (source_dir / "one.txt").write_text("one")
+
+            output_path = tmp / "output.iso"
+            build_iso([source_dir], output_path)
+            inode_before = output_path.stat().st_ino
+
+            (source_dir / "two.txt").write_text("two")
+            build_iso([source_dir], output_path)
+            inode_after = output_path.stat().st_ino
+
+            self.assertEqual(inode_before, inode_after)
+            self._assert_iso_contains(output_path, ["one.txt", "two.txt"])
+
     def test_missing_input_raises(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)

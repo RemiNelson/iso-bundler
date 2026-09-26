@@ -43,6 +43,18 @@ def build_iso(input_paths, output_path, volume_name=None):
                 "makehybrid",
                 "-iso",
                 "-joliet",
+                "-ov",  # overwrite in place: keeps the same inode across
+                        # rebuilds at the same path, which matters if the
+                        # output is a live CD-ROM mount in a VM -- UTM (and
+                        # likely other sandboxed hypervisors) grants file
+                        # access via a security-scoped bookmark tied to a
+                        # specific inode, and replacing the file (e.g. `rm`
+                        # + recreate) silently invalidates that bookmark on
+                        # the *next* VM boot with "Operation not permitted".
+                        # Confirmed empirically (`ls -i` before/after) that
+                        # `-ov` does not change the inode; without it,
+                        # hdiutil instead refuses to run at all if the
+                        # output file already exists.
                 "-default-volume-name",
                 volume_name,
                 "-o",
